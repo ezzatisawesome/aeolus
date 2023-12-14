@@ -17,6 +17,7 @@ isp = m.Param(value=200) # s
 sc_dry_mass = m.Param(value=1000) # kg
 coefficient_drag = m.Param(value=2.2) # -
 sc_cross_sectional_area = m.Param(value=3.8) # m^2
+mission_lifepsan = m.Param(value=3.45) # years
 
 
 ### Model variables
@@ -37,7 +38,10 @@ delta_v_deorbit = m.Intermediate(orbital_velocity - V_reentry) # km/s
 propellant_mass = m.Intermediate(m.exp(delta_v_deorbit / (isp * g0)) * sc_dry_mass - sc_dry_mass) # kg
 
 pert_drag_sma = m.Intermediate(-1 * sma**2 * atmospheric_density * coefficient_drag * sc_cross_sectional_area / (2 * math.pi * sc_wet_mass)) # km/s
-number_of_burns = m.Intermediate(pert_drag_sma)
+time_to_degrade =  (1 / pert_drag_sma) * orbit_period # s
+burns_a_year = 365 * 24 * 60 * 60 / time_to_degrade # -
+burns_total = mission_lifepsan * burns_a_year # -
+delta_v_per_burn = delta_v_deorbit / burns_total # km/s
 
 
 # Implicit equations
