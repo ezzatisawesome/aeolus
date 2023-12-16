@@ -2,7 +2,7 @@ import math
 from constants import earth_radius, earth_mu, g0, R_reentry
 from atmos1976 import density
 from spacecraft_constants import coefficient_drag, hydrazine_density, allowable_tensile_ultimate_strength_titanium, density_ti
-from orbit import orbital_velocity, get_period
+from orbit import get_orbital_velocity, get_period
 from utils import arctic_period
 
 
@@ -14,11 +14,11 @@ def get_propellant_need(delta_v, sc_mass, isp):
     return math.exp(delta_v / (isp * g0 / 1000)) * sc_mass - sc_mass
 
 def get_delta_v_maintenance(altitude, sc_mass):
-    return (math.pi * (coefficient_drag * sc_cross_sectional_area / sc_mass) * density(altitude) * (sma*1000) * (orbital_velocity(altitude+earth_radius)*1000)) / 1000 # km/rev
+    return (math.pi * (coefficient_drag * sc_cross_sectional_area / sc_mass) * density(altitude) * (sma*1000) * (get_orbital_velocity(altitude+earth_radius)*1000)) / 1000 # km/rev
 
 def get_delta_v_deorbit(altitude):
     V_reentry = math.sqrt(earth_mu / R_reentry) # km/s
-    delta_v_deorbit = V_reentry - orbital_velocity(altitude + earth_radius) # km/s
+    delta_v_deorbit = V_reentry - get_orbital_velocity(altitude + earth_radius) # km/s
     return delta_v_deorbit
 
 # Function to calculate thrust
@@ -49,12 +49,12 @@ def get_engine_mass(thrust):
 
 if __name__ == "__main__":
     sc_cross_sectional_area = 28 # m^2
-    dry_mass = 1000 # kg
-    altitude = 550
+    dry_mass = 909.68 # kg
+    altitude = 572
     sma = altitude + earth_radius
     isp = 200 # s
 
-    orbit_period = get_period(550 + earth_radius)
+    orbit_period = get_period(altitude + earth_radius)
     orbits_per_year = 365 * 24 * 60 * 60 / orbit_period # orbits / year
 
     # Decay

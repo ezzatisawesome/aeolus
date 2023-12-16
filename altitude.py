@@ -38,7 +38,7 @@ if __name__ == "__main__":
     best_mass_prop = sys.maxsize
 
     isp = 200 # s
-    sc_dry_mass = 1300 # kg
+    sc_dry_mass = 909.68 # kg
     coefficient_drag = 2.2 # -
     sc_cross_sectional_area = 28 # m^2
     mission_lifepsan = 3.45 # years

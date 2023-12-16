@@ -9,17 +9,17 @@ def get_inclination(sma, e):
 def get_period(sma):
     return 2 * math.pi * math.sqrt(sma ** 3 / earth_mu)
 
-def orbital_velocity(sma):
+def get_orbital_velocity(sma):
     return math.sqrt(earth_mu / sma)
 
-def orbits_per_day(sma):
+def get_orbits_per_day(sma):
     return 24 * 60 * 60 / get_period(sma)
 
 
 if __name__ == '__main__':
-    sma = 550 + earth_radius
+    sma = 572 + earth_radius
     print("i", get_inclination(sma, 0.0))
     print("SMA: ", 550 + earth_radius)
     print("Period = ", get_period(sma), "s =", get_period(sma) / 60 / 60, "hours")
-    print("Velocity = ", orbital_velocity(sma), "km/s")
-    print("Orbits per day = ", orbits_per_day(sma))
+    print("Velocity = ", get_orbital_velocity(sma), "km/s")
+    print("Orbits per day = ", get_orbits_per_day(sma))
